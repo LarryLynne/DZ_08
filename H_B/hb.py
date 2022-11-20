@@ -1,16 +1,20 @@
 from datetime import datetime, timedelta
+users = [
+    {"name": "Tanya", "birthday": datetime(year=1992, month=11, day=23)},
+    {"name": "Kostya", "birthday": datetime(year=1992, month=11, day=8)},
+    {"name": "Serhiy", "birthday": datetime(year=1992, month=11, day=8)},
+    {"name": "Sasha", "birthday": datetime(year=1994, month=11, day=3)},
+    {"name": "Nastya", "birthday": datetime(year=1989, month=11, day=29)},
+    {"name": "Vasya", "birthday": datetime(year=1986, month=11, day=24)},
+    {"name": "Pasha", "birthday": datetime(year=1986, month=11, day=27)},
+    {"name": "Pasha Padlo", "birthday": datetime(year=1986, month=11, day=26)},
+    {"name": "I Ego Brat", "birthday": datetime(year=1986, month=11, day=26)},
+    {"name": "Nezhdanchik", "birthday": datetime(year=1986, month=11, day=1)},
+    {"name": "Olia", "birthday": datetime(year=1995, month=11, day=30)}
+]
 
 
-users = {"Vasya":"14.11.2022",
-"Petya":"15.11.2022",
-"John":"23.11.2022",
-"Afonya":"19.11.2022",
-"WALDEMAAAR": "14.11.2022",
-"Sonya": "11.11.2022"}
-
-
-def get_birthdays_per_week(users: dict):
-    lst = list[str]
+def get_birthdays_per_week(users: list):
     rules = {0:"Monday", 5:"Monday", 6:"Monday", 1:"Tuesday", 2: "Wednesday", 3:"Thursday", 4: "Friday"}
     to_congratulate = {"Monday":[], "Tuesday":[], "Wednesday": [], "Thursday": [], "Friday": []}
     today = datetime.now()
@@ -23,11 +27,16 @@ def get_birthdays_per_week(users: dict):
     
     finish_day = start_day + timedelta(days=6)
     for user in users:
-        birth_day = datetime.strptime(users.get(user),"%d.%m.%Y")
+        birth_day = datetime(
+            year = today.year,
+            month = user.get('birthday').month,
+            day = user.get('birthday').day
+        )
         if birth_day >= start_day and birth_day <= finish_day:
             week_day = birth_day.weekday()
             day_to_congrats = rules.get(week_day)
-            to_congratulate.get(day_to_congrats).append(user)
+            to_congratulate.get(day_to_congrats).append(user.get("name"))
+    
     for w_day in to_congratulate:
         bd_boys = to_congratulate.get(w_day)
         if len(bd_boys)>0:
@@ -39,5 +48,6 @@ def get_birthdays_per_week(users: dict):
                     usrs += ", "
                 i += 1
             print(w_day + ": " + usrs)
+    
 
 get_birthdays_per_week(users)
